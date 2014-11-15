@@ -3,3 +3,4 @@
 # $ pip-compile requirements.in
 # get pip-compile from https://github.com/nvie/pip-tools/tree/future
 Django
+django-nested-formset
