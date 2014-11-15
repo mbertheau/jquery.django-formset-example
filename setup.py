@@ -9,7 +9,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-import skeleton
+import project
 
 
 if sys.argv[-1] == 'publish':
@@ -21,40 +21,39 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as f:
     readme = f.read()
 
 packages = [
-    'skeleton',
+    'project',
 ]
 
 package_data = {
 }
 
 requires = [
+    "Django>=1.7"
 ]
 
 classifiers = [
-        'Development Status :: 4 - Beta',
-        'Environment :: Web Environment',
-        'Framework :: Django',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Topic :: Software Development :: Debuggers',
-        'Topic :: Software Development :: Libraries :: Python Modules',
+    'Development Status :: 3 - Alpha',
+    'Environment :: Web Environment',
+    'Framework :: Django',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 2.7',
+    'Topic :: Internet :: WWW/HTTP :: Dynamic Content'
 ]
 
 setup(
-    name='python-skeleton',
-    version=skeleton.__version__,
-    description='Skeleton package for Python modules.',
+    name='project',
+    version=project.__version__,
+    description='Examples for jquery.django-formset',
     long_description=readme,
     packages=packages,
     package_data=package_data,
     install_requires=requires,
-    author=skeleton.__author__,
-    author_email='python@chrisstreeter.com',
-    url='https://github.com/streeter/python-skeleton',
+    author=project.__author__,
+    author_email='mbertheau@gmail.com',
+    url='https://github.com/mbertheau/jquery.django-formset',
     license='MIT',
     classifiers=classifiers,
 )

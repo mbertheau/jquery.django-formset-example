@@ -1,0 +1,5 @@
+# add requirements here
+# update requirements.txt with
+# $ pip-compile requirements.in
+# get pip-compile from https://github.com/nvie/pip-tools/tree/future
+Django
