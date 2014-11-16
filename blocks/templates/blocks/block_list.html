@@ -1,10 +1,20 @@
-<h1>Blocks</h1>
+{% extends "base.html" %}
 
-<ul>
-{% for Block in block_list %}
-  <li><a href="{% url 'buildings-edit' pk=Block.id %}">
-      {{ Block.description }}</a></li>
-{% endfor %}
-</ul>
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <h1>Blocks</h1>
 
-<a href="{% url 'blocks-new' %}">new block</a>
+            <ul>
+            {% for Block in block_list %}
+              <li><a href="{% url 'buildings-edit' pk=Block.id %}">
+                  {{ Block.description }}</a></li>
+            {% endfor %}
+            </ul>
+
+            <a href="{% url 'blocks-new' %}">new block</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

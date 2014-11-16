@@ -1,18 +1,28 @@
-<h1>Edit Buildings</h1>
+{% extends "base.html" %}
 
-<form action="{% url 'buildings-edit' pk=Block.id %}" method="POST">
-{% csrf_token %}
-{{ form.management_form }}
-{% for building in form %}
-{{ building.as_p }}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <h1>Edit Buildings</h1>
 
-{{ building.nested.management_form }}
-{% for tenant in building.nested %}
-{{ tenant.as_p }}
-{% endfor %}
+            <form action="{% url 'buildings-edit' pk=Block.id %}" method="POST">
+            {% csrf_token %}
+            {{ form.management_form }}
+            {% for building in form %}
+            {{ building.as_p }}
 
-{% endfor %}
+            {{ building.nested.management_form }}
+            {% for tenant in building.nested %}
+            {{ tenant.as_p }}
+            {% endfor %}
 
-<input type="submit" value="Save" />
+            {% endfor %}
 
-</form>
+            <input type="submit" value="Save" />
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
