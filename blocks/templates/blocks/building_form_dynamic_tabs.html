@@ -1,0 +1,63 @@
+{% extends "blocks/building_form_base.html" %}
+
+{% block body %}
+{% with formset=form %}
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <h1>Edit Buildings</h1>
+
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ formset.management_form }}
+
+                <ul class="nav nav-tabs">
+                    <li class="empty-form">
+                        <a href="#{{ formset.empty_form.prefix }}" data-toggle="tab">New tab</a>
+                    </li>
+                    {% for form in formset %}
+                        <li{% if forloop.first %} class="active"{% endif %}>
+                            <a href="#{{ form.prefix }}" data-toggle="tab">Tab #{{ forloop.counter }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="tab-content form-inline">
+                    <div class="tab-pane empty-form" id="{{ formset.empty_form.prefix }}">
+                        {{ formset.empty_form.as_p }}
+                    </div>
+
+                    {% for form in formset %}
+                        <div class="tab-pane{% if forloop.first %} active{% endif %}" id="{{ form.prefix }}">
+                            {{ form.as_p }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <button type="button" class="btn btn-primary" data-action="add-form">Add form</button>
+
+                <input type="submit" value="Save" />
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endwith %}
+{% endblock body %}
+
+{% block extra_script %}
+<script type="text/javascript">
+    $(function() {
+        var formset = $('form > div.tab-content > .tab-pane').djangoFormset({
+            on: {
+                formAdded: function(event, form) {
+                    form.tab.elem.find('a').text("Tab #" + (form.index + 1));
+                }
+            }
+        });
+        $('form').on('click', '[data-action=add-form]', function(event) {
+            formset.addForm();
+        });
+     });
+</script>
+{% endblock %}

@@ -49,3 +49,8 @@ class EditBuildingsView(BlockView, UpdateView):
 class EditBuildingsDynamicView(BlockView, UpdateView):
     template_name = 'blocks/building_form_dynamic.html'
     form_class = BlockForm
+
+
+class EditBuildingsDynamicTabsView(BlockView, UpdateView):
+    template_name = 'blocks/building_form_dynamic_tabs.html'
+    form_class = BlockForm
