@@ -16,33 +16,36 @@ class BlockView(object):
     # don't conflict with django's block template context variable
     context_object_name = "Block"
 
+    def get_success_url(self):
+        return reverse('blocks-list')
+
 
 class ListBlocksView(ListView):
     model = models.Block
 
 
 class CreateBlockView(BlockView, CreateView):
-    def get_success_url(self):
+    pass
 
-        return reverse('blocks-list')
+
+NestedBlockForm = nestedformset_factory(
+    models.Block,
+    models.Building,
+    nested_formset=inlineformset_factory(
+        models.Building,
+        models.Tenant
+    )
+)
+
+
+BlockForm = inlineformset_factory(models.Block, models.Building)
 
 
 class EditBuildingsView(BlockView, UpdateView):
-    def get_template_names(self):
+    template_name = 'blocks/building_form.html'
+    form_class = NestedBlockForm
 
-        return ['blocks/building_form.html']
 
-    def get_form_class(self):
-
-        return nestedformset_factory(
-            models.Block,
-            models.Building,
-            nested_formset=inlineformset_factory(
-                models.Building,
-                models.Tenant
-            )
-        )
-
-    def get_success_url(self):
-
-        return reverse('blocks-list')
+class EditBuildingsDynamicView(BlockView, UpdateView):
+    template_name = 'blocks/building_form_dynamic.html'
+    form_class = BlockForm

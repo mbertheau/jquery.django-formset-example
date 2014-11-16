@@ -3,4 +3,6 @@
 {% block nav %}
 <li{% if request.resolver_match.view_name == 'buildings-edit' %} class="active"{% endif %}>
     <a href="{% url 'buildings-edit' pk=Block.id %}">Static</a></li>
+<li{% if request.resolver_match.view_name == 'buildings-edit-dynamic' %} class="active"{% endif %}>
+    <a href="{% url 'buildings-edit-dynamic' pk=Block.id %}">Basic dynamic</a></li>
 {% endblock nav %}

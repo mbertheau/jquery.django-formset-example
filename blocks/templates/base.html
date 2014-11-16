@@ -7,6 +7,7 @@
     <!-- Bootstrap -->
     <link href="{% static "css/bootstrap.css" %}" rel="stylesheet" media="screen">
     <link href="{% static "css/bootstrap-responsive.css" %}" rel="stylesheet">
+    <link href="{% static "css/app.css" %}" rel="stylesheet">
   </head>
   <body>
     <div class="navbar">
@@ -35,5 +36,8 @@
 
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="{% static "js/bootstrap.js" %}"></script>
+    <script src="{% static "js/django-formset.js" %}"></script>
+    {% block extra_script %}
+    {% endblock %}
   </body>
 </html>

@@ -1,0 +1,51 @@
+{% extends "blocks/building_form_base.html" %}
+
+{% block body %}
+{% with formset=form %}
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <h1>Edit Buildings</h1>
+
+            <form action="" method="post" class="form-inline">
+                {% csrf_token %}
+                {{ formset.management_form }}
+
+                <div class="row empty-form">
+                    <div class="column">
+                        <h3>A building</h3>
+                        {{ formset.empty_form.as_p }}
+                    </div>
+                </div>
+
+                {% for form in formset %}
+                    <div class="row">
+                        <div class="column">
+                            <h3>A building</h3>
+                            {{ form.as_p }}
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+                <button type="button" class="btn btn-primary" data-action="add-formset">Add formset</button>
+
+                <input type="submit" value="Save" />
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endwith %}
+{% endblock body %}
+
+{% block extra_script %}
+<script type="text/javascript">
+    $(function() {
+        var formset = $('form').children('div').djangoFormset();
+        $('form').on('click', '[data-action=add-formset]', function(event) {
+            formset.addForm();
+        });
+     });
+</script>
+{% endblock %}
