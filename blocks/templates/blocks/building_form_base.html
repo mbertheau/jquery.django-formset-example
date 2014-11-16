@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block nav %}
+<li{% if request.resolver_match.view_name == 'buildings-edit' %} class="active"{% endif %}>
+    <a href="{% url 'buildings-edit' pk=Block.id %}">Static</a></li>
+{% endblock nav %}
