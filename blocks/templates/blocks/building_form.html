@@ -1,6 +1,6 @@
 <h1>Edit Buildings</h1>
 
-<form action="{% url 'buildings-edit' pk=block.id %}" method="POST">
+<form action="{% url 'buildings-edit' pk=Block.id %}" method="POST">
 {% csrf_token %}
 {{ form.management_form }}
 {% for building in form %}

@@ -1,9 +1,9 @@
 <h1>Blocks</h1>
 
 <ul>
-{% for block in block_list %}
-  <li><a href="{% url 'buildings-edit' pk=block.id %}">
-      {{ block.description }}</a></li>
+{% for Block in block_list %}
+  <li><a href="{% url 'buildings-edit' pk=Block.id %}">
+      {{ Block.description }}</a></li>
 {% endfor %}
 </ul>
 
