@@ -1,0 +1,111 @@
+{% extends "blocks/building_form_base.html" %}
+
+{% block body %}
+{% with outer_formset=form %}
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ outer_formset.management_form }}
+                {{ outer_formset.non_form_errors }}
+                <ul class="nav nav-tabs">
+                    <li class="empty-form">
+                        <a href="#{{ outer_formset.empty_form.prefix }}" data-toggle="tab">New tab</a>
+                    </li>
+                    {% for outer_form in outer_formset %}
+                        <li class="{% if forloop.first %}active{% endif %}">
+                        <a href="#{{ outer_form.prefix }}" data-toggle="tab">Tab #{{ forloop.counter }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="tab-content form-inline">
+                    <div class="tab-pane empty-form" id="{{ outer_formset.empty_form.prefix }}">
+                        <div>
+                            {{ outer_formset.empty_form.nested.management_form }}
+                            <div class="empty-form">
+                                {{ outer_formset.empty_form.nested.empty_form.as_p }}
+                            </div>
+                            {% for inner_form in outer_formset.empty_form.nested %}
+                                <div>
+                                    {{ inner_form.as_p }}
+                                </div>
+                            {% endfor %}
+                            <button type="button" class="btn btn-primary" data-action="add-inner-form">
+                                Add inner form
+                            </button>
+                        </div>
+                        <div>
+                            {{ outer_formset.empty_form.as_p }}
+                        </div>
+                    </div>
+                    {% for outer_form in outer_formset %}
+                        <div class="tab-pane{% if forloop.first %} active{% endif %}"
+                             id="{{ outer_form.prefix }}">
+                            <div>
+                                {{ outer_form.nested.management_form }}
+                                {{ outer_form.nested.non_form_errors }}
+                                <div class="empty-form">
+                                    {{ outer_form.nested.empty_form.as_p }}
+                                </div>
+                                {% for inner_form in outer_form.nested %}
+                                    <div>
+                                        {{ inner_form.as_p }}
+                                    </div>
+                                {% endfor %}
+                                <button type="button" class="btn btn-primary" data-action="add-inner-form">
+                                    Add inner form
+                                </button>
+                            </div>
+                            <div>
+                                {{ outer_form.as_p }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="actions">
+                        <button type="button" class="btn btn-primary" data-action="add-outer-form">
+                            Add outer form
+                        </button>
+                        <input type="submit" value="Save" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endwith %}
+{% endblock body %}
+
+{% block extra_script %}
+<script type="text/javascript">
+    var outerFormset = $("form > div.tab-content > div.tab-pane").not('.actions')
+        .djangoFormset({
+        on: {
+            formInitialized: function(event, form) {
+                /* Init inner formset */
+                var innerFormsetElem = form.elem.children('div').first();
+                var innerFormset = innerFormsetElem.children('div').djangoFormset();
+                innerFormsetElem.on('click', '[data-action=add-inner-form]', function(event) {
+                    innerFormset.addForm();
+                });
+            },
+            formAdded: function(event, form) {
+                /* Optionally set tab header text on new forms */
+                form.tab.elem.find('a').text("Tab #" + (form.index + 1));
+            }
+        }
+    });
+    /* Add new outer form on add button click */
+    $('form').on('click', '[data-action=add-outer-form]', function(event) {
+        outerFormset.addForm();
+    });
+    /* Optionally update tab label based on input value */
+    $('form').on('change', 'input:not([name*="__prefix__"]):first', function() {
+        var tabLabel = "First input value is " + $(this).val();
+        form = $(this).closest('.tab-pane').data('djangoFormset.Form');
+        form.tab.elem.find('a').text(tabLabel);
+    });
+</script>
+{% endblock %}

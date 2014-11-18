@@ -54,3 +54,8 @@ class EditBuildingsDynamicView(BlockView, UpdateView):
 class EditBuildingsDynamicTabsView(BlockView, UpdateView):
     template_name = 'blocks/building_form_dynamic_tabs.html'
     form_class = BlockForm
+
+
+class EditBuildingsDynamicTabsNestedView(BlockView, UpdateView):
+    template_name = 'blocks/building_form_dynamic_tabs_nested.html'
+    form_class = NestedBlockForm

@@ -17,4 +17,6 @@ urlpatterns = [
         name='buildings-edit-dynamic'),
     url('^blocks/dynamic-tabs/(?P<pk>\d+)/$', views.EditBuildingsDynamicTabsView.as_view(),
         name='buildings-edit-dynamic-tabs'),
+    url('^blocks/dynamic-tabs-nested/(?P<pk>\d+)/$', views.EditBuildingsDynamicTabsNestedView.as_view(),
+        name='buildings-edit-dynamic-tabs-nested'),
 ]
