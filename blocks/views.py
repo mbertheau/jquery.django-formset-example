@@ -1,3 +1,4 @@
+from .forms import BlockForm
 from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
 from django.views.generic import (
@@ -15,6 +16,7 @@ class BlockView(object):
     model = models.Block
     # don't conflict with django's block template context variable
     context_object_name = "Block"
+    form_class = BlockForm
 
     def get_success_url(self):
         return reverse('blocks-list')
@@ -33,12 +35,13 @@ NestedBlockForm = nestedformset_factory(
     models.Building,
     nested_formset=inlineformset_factory(
         models.Building,
-        models.Tenant
+        models.Tenant,
+        fields='__all__'
     )
 )
 
 
-BlockForm = inlineformset_factory(models.Block, models.Building)
+BlockForm = inlineformset_factory(models.Block, models.Building, fields='__all__')
 
 
 class EditBuildingsView(BlockView, UpdateView):
