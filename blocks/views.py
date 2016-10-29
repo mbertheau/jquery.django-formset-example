@@ -30,7 +30,7 @@ class CreateBlockView(BlockView, CreateView):
     pass
 
 
-NestedBlockForm = nestedformset_factory(
+NestedBlockFormSet = nestedformset_factory(
     models.Block,
     models.Building,
     nested_formset=inlineformset_factory(
@@ -41,24 +41,24 @@ NestedBlockForm = nestedformset_factory(
 )
 
 
-BlockForm = inlineformset_factory(models.Block, models.Building, fields='__all__')
+BlockFormSet = inlineformset_factory(models.Block, models.Building, fields='__all__')
 
 
 class EditBuildingsView(BlockView, UpdateView):
     template_name = 'blocks/building_form.html'
-    form_class = NestedBlockForm
+    form_class = NestedBlockFormSet
 
 
 class EditBuildingsDynamicView(BlockView, UpdateView):
     template_name = 'blocks/building_form_dynamic.html'
-    form_class = BlockForm
+    form_class = BlockFormSet
 
 
 class EditBuildingsDynamicTabsView(BlockView, UpdateView):
     template_name = 'blocks/building_form_dynamic_tabs.html'
-    form_class = BlockForm
+    form_class = BlockFormSet
 
 
 class EditBuildingsDynamicTabsNestedView(BlockView, UpdateView):
     template_name = 'blocks/building_form_dynamic_tabs_nested.html'
-    form_class = NestedBlockForm
+    form_class = NestedBlockFormSet
