@@ -1,3 +1,4 @@
+from .forms import BlockForm
 from django.core.urlresolvers import reverse
 from django.forms.models import inlineformset_factory
 from django.views.generic import (
@@ -15,6 +16,7 @@ class BlockView(object):
     model = models.Block
     # don't conflict with django's block template context variable
     context_object_name = "Block"
+    form_class = BlockForm
 
     def get_success_url(self):
         return reverse('blocks-list')
@@ -28,34 +30,35 @@ class CreateBlockView(BlockView, CreateView):
     pass
 
 
-NestedBlockForm = nestedformset_factory(
+NestedBlockFormSet = nestedformset_factory(
     models.Block,
     models.Building,
     nested_formset=inlineformset_factory(
         models.Building,
-        models.Tenant
+        models.Tenant,
+        fields='__all__'
     )
 )
 
 
-BlockForm = inlineformset_factory(models.Block, models.Building)
+BlockFormSet = inlineformset_factory(models.Block, models.Building, fields='__all__')
 
 
 class EditBuildingsView(BlockView, UpdateView):
     template_name = 'blocks/building_form.html'
-    form_class = NestedBlockForm
+    form_class = NestedBlockFormSet
 
 
 class EditBuildingsDynamicView(BlockView, UpdateView):
     template_name = 'blocks/building_form_dynamic.html'
-    form_class = BlockForm
+    form_class = BlockFormSet
 
 
 class EditBuildingsDynamicTabsView(BlockView, UpdateView):
     template_name = 'blocks/building_form_dynamic_tabs.html'
-    form_class = BlockForm
+    form_class = BlockFormSet
 
 
 class EditBuildingsDynamicTabsNestedView(BlockView, UpdateView):
     template_name = 'blocks/building_form_dynamic_tabs_nested.html'
-    form_class = NestedBlockForm
+    form_class = NestedBlockFormSet
